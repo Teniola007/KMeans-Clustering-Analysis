@@ -1,20 +1,69 @@
-# House-Prediction-Model
-Supervised Learning
+# K-means-Clustering-Covid-data analysis
 
-Linear regression is a type of supervised learning that uses inputs x to predict an outcome Y. It approximates a causal link between two or more variables linearly. Input X can take different values depending on whether it's a simple or multiple linear regression. We use simple and multiple regression to predict house price, the task's goal variable. While multiple regression focuses on the best-fitting model, simple regression is always about the line that fits the data the best. The lowest sum of square error is our goal. Model 4 is the most efficient since it predicts better and has the greatest r2 score (0.728). The House price.py file contains all of the work's source code. No missing values were found when I looked at my data, so I used a heat map to plot a correlation of the characteristics to help me decide which ones to use as the inputs for my regression.
+Coronavirus disease 2019 (COVID-19) is a contagious disease caused by a virus, the severe acute
+respiratory syndrome coronavirus 2 (SARS-CoV-2). The first known case was identified in Wuhan, China, in
+December 2019. The disease quickly spread worldwide, resulting in the COVID-19 pandemic.
 
-## Modelling
+As at the end of February 2023, there have been 758,390,564 cases and 6,859,093 deaths worldwide.
+Effective screening or vaccination enables quick and efficient diagnosis of the virus, mitigating the burden on
+the healthcare system, there have been 653,592,180 recovered cases worldwide.
 
-Each time a regression is created, it should be meaningful. Critical thinking is most times needed for regression. Before concluding a feature is significant, always try to understand why. One of the ways to achieve this is by checking the correlation of the input variables to the target. But it is essential also to note correlation does not always mean causation. For each model, we slice the input and target variables x and y using the iloc method and split the data into test and train. Splitting mainly aims to ensure the model trains on a set of samples it has never seen before. The split can either be done 60/40,70./30, 80/20, or even 90/10. Ensuring the test sample is smaller than the training sample is essential. These test/train data are used to fit the learning algorithm so that it can learn how to predict. We create an instance of the linear regression class and then fit the regression in the correct order(x,y).
+This comparative analysis aims to ascertain how the world is managing, coping, and surviving with the virus
+through preventive measures such as wearing of mask, isolation, vaccination, and improvement of general
+hygiene. I chose the dataset from 1st of October 2020 to 1st of Janaury 2021 (Dataset 1) and 1st of October
+2021 to 1st of January 2022(Dataset 2) using Kmeans clustering.
 
-## Evaluation and Model improvement
+Firstly, the data was consolidated, renamed accordingly, and then cleaned (null/ negative values were
+replaced or removed depending on the best approach for each situation).
+Data cleaning is the process of detecting and correcting (or removing) corrupt or inaccurate records from a
+record set, table, or database and refers to identifying incomplete, incorrect, inaccurate or irrelevant parts of
+the data and then replacing, modifying, or deleting the dirty or coarse data. It is important because it
+improves the data quality and, in so doing, increases overall productivity. For this case, it helped remove
+errors in the clustering and negative clusters.
 
-The coefficient of determination (R2_score) measures the goodness of fit of a model. It explains the percentage variability of the model. It helps with the effectiveness of a model In general, a house's size has a significant impact on price, which explains its strong correlation to price. However, as previously mentioned, correlation does not always imply causation. Using square feet living to predict house price in model1 gives an r2_score 0.49. In the ideal circumstance, the residual plot should follow a normal distribution. In this instance, we see that there are a lot of positive residuals and a small number of negative residuals (far from the mean). Positive values indicate that y-hat (predictions) is substantially lower than y-train (the targets), and vice versa, given the definition of the residuals (y-train - y-hat). This indicates that our model does a terrible job of predicting expensive houses. This is food for thought to improve our model. This provides ideas for enhancing our model. I personally tried working with different feature pairings, however the model 4 with 7 features had the best r2 score. The discrepancy between the target and projected values is referred to as residual and is used to assess a model's efficacy. The distribution is nearly normal, although model 4 consistently undervalues prices while seldom overestimating targets. Based on this, we can continue to look into methods to improve our models.
+Geopy was used to confirm the accuracy of longitude and latitude in the dataset. Geopy helped in the
+location of the coordinates of addresses, cities, countries, and landmarks across the globe using third-party
+geocodes. For the clustering analysis only the Confirmed cases and Death columns were needed. So, all
+other columns were dropped, to create a new data frame.
 
-## Visualization
+The confirmed cases and death scale (2 features needed for k means clustering) are different because
+several confirmed instances will always be more than Death. The data were normalized to reduce the scale
+using a standard scalar method. Please note that the k-means algorithm is dependent on Euclidean
+distance, so having two features on different scales can be problematic to the k-means algorithm.
+To know the best value of K to use in the clustering, create a scree plot (a line plot that helps determine the
+number of clusters). The Elbow point defines the optimal value of k. the optimal values for k are k =3 and k
+=4. SSE is decreasing linearly after both of these points. For this analysis, 4 is the best value for K. Since
+deaths and confirmed cases are in different scales, feeding the k value and the scaled data frame
+(X_scaled) to the K-Means algorithm is the best approach, then calculate the mean value of k to get the
+value for each cluster. We had 4 clusters; Cluster 2- Moderate risk, Cluster 3- High risk, Cluster 1- very Low
+risk, and Cluster 4- Low risk.
 
-Prediction plot for model 4 test set- This also helps check efficiency of the model. We can also figure out how much the predictions and targets differ from one another. Remember that this is the residual. This comparison is incredibly valid because OLS simply reduces the whole sum of squared errors (residuals). Seeing how far we are from the outcome in terms of percentage makes sense as a final step. To simply sort the data set, we take the absolute difference in % in this case.
+Data visualization was the final process assigning a color to each cluster, making it easier to read.
+From the map, I agree with the result because the spread of covid dropped significantly except in countries
+like England and Turkey, which had an outbreak of the variant Omicron. This can be further justified by the
+WHO and Worldometer data. Only two countries remained in Moderate and high-risk countries from 2020 to
+2021, and they are England and Turkey, and this was because of the omicron variant of Covid 19. A country
+like Argentina moved from moderate risk to very low risk, while France moved from a high risk to a low risk
+countries.
 
-## Conclusion
+There was a decline in the infection and death rate across the world as countries implemented measures to
+better manage the pandemic.
 
-Training the model with more features will improve the model. Generally, the more features included, the higher the r2 score, but we can add 100 input variables to a model making the predictions outstanding, but this greatly makes regression futile. It's best to use a few input variables to predict the model, as a good model is always better than a model with high explanatory power. The adjusted R2 should be used to remove meaningless input variables. Improving the model Outliers are observations that are abnormally distant from other observations in the data. They have a significant impact on regression and inflate coefficients as regression tries to draw the line closer to those values. The model can be enhanced by eliminating outliers. We may accomplish this using a number of quantile or log transformation techniques. Changing the random state of your data set can also help improve the model, as a model might train/test better on one group than the other. It is best to take the average of the different random states. Applying some other machine learning algorithms like random forest, svm might give a better result. Also, hyper parameter tuning of the regression result can give a higher score. Worthy of note is that the r2_score for the test set should always be lower than those of the train test. That way, you can be sure your model has not overfitted. In conclusion, Model 4 is best for this task but adding more features can improve the model even further.
+## REFERENCES
+Department of Transport and Department of Health and Social care (2021): Red list of countries and
+Territories. Available at: https://www.gov.uk/guidance/red-list-of-countries-and-territories
+(https://www.gov.uk/guidance/red-list-of-countries-and-territories) (Accessed 22 February 2023)
+
+Prime Minister's statement on coronavirus (COVID-19): 31 October 2020. Available at:
+https://www.gov.uk/government/speeches/prime-ministers-statement-on-coronavirus-covid-19-31-october2020 (https://www.gov.uk/government/speeches/prime-ministers-statement-on-coronavirus-covid-19-31-
+october-2020) (Accessed 24 February 2023).
+
+Nahar, V. (2023) ‘Week 3’. 7CSO33: Data Mining and Informatics. Available at: https:
+https://canvas.wlv.ac.uk/courses/36895/modules (https://canvas.wlv.ac.uk/courses/36895/modules)
+(Accessed: 19 February 2023).
+
+World Health Organization WHO. Coronavirus (Covid19) Dashboard. Available at: https://covid19.who.int/
+(https://covid19.who.int/) (Accessed 24 February 2023)
+
+Worldometer. Covid19 Coronavirus Pandemic. Available at: https://www.worldometers.info/coronavirus
+(https://www.worldometers.info/coronavirus). (Accessed 25 February 2023)
